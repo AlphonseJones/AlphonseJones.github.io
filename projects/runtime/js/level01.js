@@ -16,13 +16,22 @@ var level01 = function (window) {
             "number": 1, 
             "speed": -3,
             "gameItems": [
-                { "type": "sawblade", "x": 500, "y": groundY - 10},
-                { "type": "sawblade", "x": 1200, "y": groundY - 110},
-                { "type": "sawblade", "x": 2500, "y": groundY - 20},
+                { "type": "enemy", "x": 400, "y": groundY - 50},
+                { "type": "sawblade", "x": 500, "y": groundY - 110},
+                { "type": "enemy2", "x": 600, "y": groundY - 50},
                 { "type": "spikes", "x": 700, "y": groundY - 10},
+                { "type": "sawblade", "x": 1200, "y": groundY - 110},
+                { "type": "enemy3", "x": 1400, "y": groundY - 50},
+                { "type": "enemy2", "x": 1600, "y": groundY - 50},
                 { "type": "spikes", "x": 2000, "y": groundY - 10},
-                { "type": "enemy", "x": 900, "y": groundY - 100},
-                { "type": "reward", "x": 2500, "y": groundY - 10}
+                { "type": "reward", "x": 2000, "y": groundY - 110},
+                { "type": "sawblade", "x": 2500, "y": groundY - 110},
+                { "type": "enemy2", "x": 3000, "y": groundY - 50},
+                { "type": "sawblade", "x": 3400, "y": groundY - 110},
+                { "type": "spikes", "x": 3700, "y": groundY - 10},
+                { "type": "enemy", "x": 4000, "y": groundY - 50},
+                { "type": "spikes", "x": 4400, "y": groundY - 10},
+                { "type": "sawblade", "x": 4600, "y": groundY - 110},
             ]
         };
         window.levelData = levelData;
@@ -53,12 +62,20 @@ var level01 = function (window) {
                 createSpikes(gameItem.x, gameItem.y);
             }
             
-            if(gameItem.type === 'enemy') {
+            if (gameItem.type === 'enemy') {
                 createEnemy(gameItem.x, gameItem.y);
             }
             
-            if(gameItem.type === 'reward') {
+            if (gameItem.type === 'reward') {
                 createReward(gameItem.x, gameItem.y);
+            }
+            
+            if (gameItem.type === 'enemy2') {
+                createEnemy2(gameItem.x, gameItem.y);
+            }
+            
+            if (gameItem.type === 'enemy3') {
+                createEnemy3(gameItem.x, gameItem.y);
             }
     }
         
@@ -81,42 +98,105 @@ var level01 = function (window) {
         createSpikes(2000, groundY - 10);
         
         function createEnemy(x, y) {
-            var enemy =  game.createGameItem('enemy',25);
-             var dab = draw.bitmap('img/Dab_.png');
-                dab.x = -25;
+            var enemy =  game.createGameItem('enemy', 25);
+                enemy.x = x;
+                enemy.y = y;
+                enemy.velocityX = -2;
+            
+            var dab = draw.bitmap('img/Dab_.png');
+                dab.x = -42;
                 dab.y = -25;
                 dab.scaleX = 3;
                 dab.scaleY = 3;
+                
                 enemy.addChild(dab);
-                enemy.x = 400;
-                enemy.y = groundY-50;
+                
                 game.addGameItem(enemy);
-                enemy.velocityX = -2;
-                enemy.rotationalVelocity = 0;
-            
+       
             enemy.onPlayerCollision = function() {
-                game.changeIntegrity(-10);
+                game.changeIntegrity(-15);
                 enemy.fadeOut();
-                game.increaseScore(0);
+
         };
         
             enemy.onProjectileCollision = function() {
                 enemy.fadeOut();
                 game.increaseScore(200);
-            }
+            };
     }
     
+         function createEnemy2(x, y) {
+            var enemy =  game.createGameItem('enemy2', 25);
+                enemy.x = x;
+                enemy.y = y;
+                enemy.velocityX = -2;
+            
+            var odie = draw.bitmap('img/Odie.png');
+                odie.x = -48;
+                odie.y = -25;
+                odie.scaleX = 3;
+                odie.scaleY = 3;
+                
+                enemy.addChild(odie);
+                
+                game.addGameItem(enemy);
+       
+            enemy.onPlayerCollision = function() {
+                game.changeIntegrity(-15);
+                enemy.fadeOut();
+
+        };
+        
+            enemy.onProjectileCollision = function() {
+                enemy.fadeOut();
+                game.increaseScore(200);
+            };
+    }
+    
+        function createEnemy3(x, y) {
+            var enemy =  game.createGameItem('enemy', 25);
+                enemy.x = x;
+                enemy.y = y;
+                enemy.velocityX = -2;
+            
+            var pose = draw.bitmap('img/tpose.png');
+                pose.x = -44;
+                pose.y = -40;
+                pose.scaleX = 3;
+                pose.scaleY = 3;
+                
+                enemy.addChild(pose);
+                
+                game.addGameItem(enemy);
+       
+            enemy.onPlayerCollision = function() {
+                game.changeIntegrity(-15);
+                enemy.fadeOut();
+
+        };
+        
+            enemy.onProjectileCollision = function() {
+                enemy.fadeOut();
+                game.increaseScore(200);
+            };
+    }
+            
+
+    
         function createReward(x, y) {
-            var reward = game.createGameItem('reward', 17);
+            var reward = game.createGameItem('reward', 25);
                 reward.x = x;
                 reward.y = y;
-                reward.velocityX = -2;
+                reward.velocityX = -1;
+                game.addGameItem(reward);
                 
             var vine = draw.bitmap('img/Vine.png');
-                vine.x = -20;
-                vine.y = -20;
+                vine.x = -28;
+                vine.y = -25;
+                vine.scaleX = 2;
+                vine.scaleY = 2;
                 
-            reward.addChild('img/Vine.png');
+            reward.addChild(vine);
             
             game.addGameItem(reward);
             
@@ -124,9 +204,7 @@ var level01 = function (window) {
                 game.increaseScore(400);
                 reward.fadeOut();
             };
-        
     }
-            
         // DO NOT EDIT CODE BELOW HERE
     };
 };

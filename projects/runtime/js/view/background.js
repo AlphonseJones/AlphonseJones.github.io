@@ -38,7 +38,7 @@ var background = function (window) {
             // TODO: 2 - Part 2
             // this fills the background with a obnoxious yellow
             // you should modify this to suit your game
-            var backgroundFill = draw.rect(canvasWidth,groundY,'red');
+            var backgroundFill = draw.bitmap('img/spicy gudnesss.jfif');
             background.addChild(backgroundFill);
             
             // TODO: 3 - Add a moon and starfield
@@ -51,7 +51,7 @@ var background = function (window) {
             
             var circle;
             for(var i=0;i<100;i++) {
-                circle = draw.circle(10,'white','White',2);
+                circle = draw.circle(1,'white','White',2);
                 circle.x = canvasWidth*Math.random();
                 circle.y = groundY*Math.random();
                 background.addChild(circle);
