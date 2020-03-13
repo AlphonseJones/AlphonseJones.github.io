@@ -32,6 +32,7 @@ var level01 = function (window) {
                 { "type": "enemy", "x": 4000, "y": groundY - 50},
                 { "type": "spikes", "x": 4400, "y": groundY - 10},
                 { "type": "sawblade", "x": 4600, "y": groundY - 110},
+                { "type": "ultEnemy", "x": 1700, "y": groundY - 60}
             ]
         };
         window.levelData = levelData;
@@ -76,6 +77,10 @@ var level01 = function (window) {
             
             if (gameItem.type === 'enemy3') {
                 createEnemy3(gameItem.x, gameItem.y);
+            }
+            
+            if (gameItem.type === 'ultEnemy') {
+                createUltEnemy(gameItem.x, gameItem.y);
             }
     }
         
@@ -132,7 +137,7 @@ var level01 = function (window) {
                 enemy.velocityX = -2;
             
             var odie = draw.bitmap('img/Odie.png');
-                odie.x = -48;
+                odie.x = -52;
                 odie.y = -25;
                 odie.scaleX = 3;
                 odie.scaleY = 3;
@@ -180,9 +185,31 @@ var level01 = function (window) {
                 game.increaseScore(200);
             };
     }
-            
-
     
+        function createUltEnemy(x, y) {
+            var enemy = game.createGameItem('enemy', 25);
+                enemy.x = x;
+                enemy.y = y;
+                enemy.velocityX = -.2;
+                
+                
+            var rick = draw.bitmap('img/pickle rick.png');
+            rick.x = -130;
+            rick.y = -300;
+            rick.scaleX = 2;
+            rick.scaleY = 2;
+            
+            enemy.addChild(rick);
+            
+            game.addGameItem(enemy);
+            
+            enemy.onProjectileCollision = function() {
+                enemy.fadeOut();
+                game.increaseScore(10000);
+            };
+    }
+        
+            
         function createReward(x, y) {
             var reward = game.createGameItem('reward', 25);
                 reward.x = x;
